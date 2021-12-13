@@ -162,7 +162,7 @@ class Game:
         elif(re.search("[\.\-_'=:;´]", currentTopo)):
             print("Du  bist am Strand")
         
-    def substractLifeEnergy(self,args):
+    def subtractLifeEnergy(self,args):
         print(args['text'])
         self.lebens_energie -= args['value']
         self.breakInput()
