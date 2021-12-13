@@ -1,3 +1,5 @@
+from Event import Event
+
 
 events = {}
 events[1] = """
@@ -15,16 +17,23 @@ Sie zerteilen die Leiche und verteilen die Stücke untereinander!
 Es sind Kanibalen !
 '''
 
-'''
-random_events = {
-    {'w': {
-        'Autsch!  Du  von einer schlange gebissen (-5)': 'lebens_energie-=5'}},
-    {'w': {
-        'Du findest rote Beeren. Möchtest Du Sie essen?': 'decision(ifyes = -10)'}},
-    {'w': {
-        'Du findest gelbe Beeren. Möchtest Du Sie essen?': 'decision(ifyes = +5)'}},
-    {'w': {
-        'Du findest gelbe Pilze. Möchtest Du Sie essen?': 'decision(ifyes = +5)'}}
-}
-# {'bedingung : {'ausgabe': 'code_to_be_evaluated'}}
-'''
+
+
+random_events = { 
+    'w' : 
+    [
+        Event('Autsch!  Du wurdest von einer schlange gebissen (-5)','substractLifeEnergy',{'value':-5},0.2),
+        Event('Du findest rote Beeren. Möchtest Du Sie essen?','decision',{'value':-10,'message:':'Oh die waren giftig !!'},0.2),
+        Event('Du findest gelbe Beeren. Möchtest Du Sie essen?','decision',{'value':5,'message:':'Lecker'},0.2),
+        Event('Du findest gelbe Pilze. Möchtest Du Sie essen?','decision',{'value':5, 'message:':'Der Hunger treibt es rein'},0.2)
+    ],
+    'b' :
+    [
+        Event('Autsch!  Du bist auf einen See-Igel getretten (-3)','substractLifeEnergy',{'value':-3},0.2),
+    ]
+        
+    }
+
+
+
+

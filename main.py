@@ -20,7 +20,9 @@ myGame = Game()
 while True:
     print(f"\n-- Runde {myGame.runde} --")
     myGame.printEvents()
+    myGame.printTopoInfo()
     myGame.showMap()
+    
     myGame.userInput()
 
     myGame.handleEndOfRound()

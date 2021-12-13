@@ -1,12 +1,16 @@
+import re
+import random
+
 from events import *
 import base_config
-
+#import Event
 
 class Game:
 
     def __init__(self):
-        self.map_arr = self.createMapArrayFromString(base_config.map)
+        
         self.visual_map = self.createMapArrayFromString(base_config.visual_map)
+        self.topographic_map = self.createMapArrayFromString(base_config.topographic_map)
         self.legende = base_config.legende
         self.inventar = base_config.inventar
         self.x = base_config.x
@@ -15,6 +19,7 @@ class Game:
         self.lebens_energie = base_config.lebens_energie
         self.optionen = base_config.optionen
         self.inventar_optionen = base_config.inventar_optionen
+        
 
     # static
     @staticmethod
@@ -132,3 +137,47 @@ class Game:
 
     def breakInput(self):
         input("<Drücke RETURN um fortzufahren> ")
+
+    def handleRandomEvent():
+        pass
+
+    def printTopoInfo(self):
+        #print(self.x," ",self.y)
+      #  print(self.topographic_map)
+
+        currentTopo = self.topographic_map[int(self.y)][int(self.x)]     
+        if(currentTopo == 'w'):
+            print("Du bist im Wasser. (schwimmen kostet Kraft) (-5)")
+            self.lebens_energie-=5
+        elif(currentTopo == ' '):
+            print("Du  bist im Wald")
+
+            aEvent = random.choice(random_events['w']) # zufälliges event aus liste
+            if(float(aEvent.getProbabilitiy()) >= random.random()): # nach wahrscheinlichkeit ausgeführt
+                myFunc = aEvent.getFunction()
+                class_method = getattr(Game, myFunc)
+                class_method(self,aEvent.getFunctionArgs())
+
+
+        elif(re.search("[\.\-_'=:;´]", currentTopo)):
+            print("Du  bist am Strand")
+        
+    def substractLifeEnergy(self,args):
+        print(args['text'])
+        self.lebens_energie -= args['value']
+        self.breakInput()
+
+    def decision(self,args):
+        inp = input(args['text'] + " (y/n)")
+        if inp == 'y' :
+            self.lebens_energie+=args['value']
+            if('message' in args):
+                print(args['message'],"(",args['value'],")")
+        elif inp == 'n' :
+            pass 
+        else:
+            print("Probier es nochmal!")
+            self.decision(args)
+
+
+
